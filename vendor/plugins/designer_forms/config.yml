@@ -1,0 +1,49 @@
+# This is the default DesignerForms configuration.
+#
+# The "common" section is loaded for all environments, but you can override any of the directives
+# by adding an environment section like "test:", or "development:" and those values will be used
+# instead.
+# 
+# You can also put ERB style code in here, such as <%= RAILS_ROOT %> and it'll be parsed.  If you
+# want an empty string you can use '' -- but this should really be fixed in the plugin.
+#
+# NOTE: If you change these, you must restart the server.  If you want to change the configuration
+#       directives per form instance, you can do so by accessing the DesignerFormsConfig object
+#       with DesignerFormsConfig.form_class, or within the form block with
+#       f.options.required_class.
+common:
+  # basic designer form builder configuration
+  builder: DesignerForms::HelperExtensions::DesignerFormBuilder
+  form_class: styled
+  form_wrapper: <div class="designerized_form">${html_tag}</div>
+  input_wrapper_tag: span
+  required_class: required
+  required_flag: ''
+  tip_wrapper: <span class="field-tip" id="tip_for_${field}">(${html_tag})</span>
+  # error related configuration
+  error_class: error
+  error_wrapper: ${html_tag}
+  include_errors_with_input: true
+  errors_for_input_wrapper: <span class="field-errors" id="errors_for_${field}">${html_tag}</span>
+  errors_for_input_sub_wrapper: [${html_tag}!]
+  error_list_wrapper_tag: ul
+  error_list_class: error-messages
+  error_list_item_wrapper_tag: li
+  # input helper methods that the designer forms should handle -- anything in this list will have
+  # a label added to it (so this shouldn't include things like label or form_tag, for obvious
+  # reasons, many of those are handled manually in the plugin)
+  input_helper_methods:
+    - radio_button
+    - password_field
+    - file_field
+    # - check_box
+    - text_area
+    - text_field
+    - hidden_field
+    - select
+    - collection_select
+    # - country_select
+    - time_zone_select
+    - datetime_select
+    - date_select
+    - calendar_date_select

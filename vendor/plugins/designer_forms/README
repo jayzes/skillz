@@ -1,0 +1,186 @@
+Designer Forms
+==============
+
+The Designer Forms plugin was created with the idea of providing more flexibility when generating
+forms.  To this end, it primarily hijacks your form_for and fields_for methods along with adding a
+few addition form instance methods that can ease a few woes when dealing with forms.  Most of the
+form enhancements were created with the ultimate goal of providing better custom Ajax validation,
+and that's baked into Designer Forms directly.  
+
+Additionally, a few methods like error_messages_for and field_set_tag have been adjusted to work
+better with Designer Forms.
+
+V1.1 Added :include_errors_for => [:another_field, :another_field] to all form input methods.
+V1.1 Changed error_messages_for to always display at least the header message that the object
+		 has errors (on a form that's too long it was hard to tell if it had errors or not)
+		 
+Author:
+  - Jeremy Jackson
+
+Thanks:
+
+  - Michael Schuerig, michael@schuerig.de -- the validation_reflection plugin, which I essentially
+    ripped off (I added two methods to the version included).
+  - Gabe Varela -- lots of answers during the initial phases of plugin development (it's my first
+    plugin), confirmation of my ideas and some good alternatives.
+
+Installation:
+script/plugin install git://github.com/factorylabs/designer_forms.git
+
+
+Configuration:
+
+  Default configuration is provided in [plugin_path]/config.yml.  You can modify this file, or
+  better yet, move it to /config/plugins/factory_designer_forms.yml.  This file, if it exists will
+  override the [plugin_path]/config.yml, so it's good measure to do it if you want to change stuff.
+  
+  Most of the configuration options are documented in the yml file directly, or self explanatory
+  based on the name, so check there for directive specific documentation.
+
+
+Methods that are hijacked (and their aliases):
+
+  - form_for / form_for_without_designerization
+    Whenever you call form_for you will now, by default, get the designer form builder.  If you
+    don't want the designerized form you can call the original method directly.  To enable Ajax
+    validation on the form you can pass in ":validates_with_ajax => true" as an option (read the
+    Ajax Validation section of this document to learn more).
+
+  - fields_for / fields_for_without_designerization
+    Same deal as above.  If for some reason you'd like to have only some of your form
+    designerized, you can do so by using fields_for on only those things that you would like
+    designerized.  Also takes the :validates_with_ajax option, and if ommited you can have fields
+    within a form that don't use ajax validations.
+
+  - field_set_tag / field_set_tag_without_designerization
+    The default field_set_tag doesn't allow for passing in attributes, such as class.  This method
+    does.  This method is also available from the form instance as f.field_set.
+
+  - error_messages_for / error_messages_for_without_designerization
+    Unlike form_for and fields_for, this method is only included to allow for more flexibility in
+    styling.  The primary reason was based on the fact that you can include errors with the inputs,
+    and thus, you probably don't want errors at the top of the form -- but you may still want to
+    use the method in the case of more complex error messages.  Works the same as the original
+    error_messages_for in regards to :message and :header_message options.
+
+
+Additional form instance methods:
+
+  - errors_for(field)
+    Will return a string, either empty if there are no errors, or a humanized version of the error
+    messages associated with the given field.
+
+  - has_errors?(field)
+    Returns a boolean if the provided field has errors or not.
+
+  - wrap_input(field, input, options = {})
+    Will return the "input" string wrapped within the configurable input_wrapper_tag.  You can
+    optionally pass in :required => true in the options if the field is required.  It will handle
+    adding the required and error class attributes for you.
+
+  - field_set(legend = nil, options = {}, &block)
+    Very much like the field_set_tag method.  It's here to provide a better way of accessing the
+    form instance variables should I ever decide to add things like grouped error messages (error
+    messages for each fieldset group etc).  This calls through to
+    ActionView::Helpers::FormTagHelper.field_set_with_designerization.
+
+  - label(field, text = nil, options = {})
+    Gives you a nice way to get a label for a given field that will be marked as required or with
+    the appropriate error class if either should be true.
+
+
+Ajax Validation:
+
+  You can enable the Ajax validation fairly easily by adding a line to your controller and passing
+  the ":validates_with_ajax => true" option to the form_for method.  You can additionally, for any
+  input method pass in the ":validates_with => :first_name", which will validate the field (or
+  array of fields) whenever the given field is validated.  This is handy if for example you have
+  two dates, one must be later then the other.  You can force the validation to happen on both
+  fields to ensure that the correct error messages are displayed or removed.
+  
+  To add the Ajax validation in the controller put in the "validates_with_ajax" method and pass in
+  an array of objects.  So if the controller has a form for :person and :credential, you can use
+  "validates_with_ajax :person, :credential".  Remember to put this outside of any controller
+  action.
+  
+  An example of using Ajax validation is in the Example Usage section below.
+
+Example usage:
+
+  Typically you'll use it the same as you do forms already.  In fact, it should just work for you
+  after installing the plugin and modifying the configuration as needed.
+
+  The form_for, field_for, field_set_tag and error_messages_for methods are all designerized.
+  If you don't want to use the designerized versions, use the xxx_without_designerization methods
+  instead.
+
+  You can use the form_for exactly the way you've always used it.  The plugin adds a default class
+  to the form for you and handles if the form should be using ajax validation or not.
+  - form_for(@object) do |f|
+    => <form action="/objects" class="designer-form" id="new_page" ...
+
+  You can also change form level configuration directives by accessing the options on the form
+  instance.  By doing this you can change configuration on a form level basis.  Mixing this with
+  the fields_for method you should be able to accomplish a lot of variation with your forms.
+  - f.options.required_flag = '<span class="required-flag">*</span>'
+    => 
+
+  The field_set method is pretty much the same, but you can pass in html options, for a class
+  attribute etc.  The idea of hijacking this method was in case I ever added field_set level error
+  messages (errors that are broken up into field_set grouping).
+  - f.field_set 'Your details', :class => 'special-grouping' do
+    => <fieldset class="special-grouping"><legend>Your details</legend>
+
+  The added label method provided an easy way to hook in and get a label for a given field with the
+  required class set appropriately (in this example, title is a required field.)
+  - f.label(:title, "Title:")
+    => <label class="required" for="page_title"><span class="required-flag">*</span>Title:</label>
+
+  All of your old input methods will be the same, but with a few added enhancements.  First, it
+  will apply a label (above), an error message for that field specifically (should one exist), or
+  a "tip" if you pass one in with the options (in this example, zip_code is a required field).
+  - f.text_field :zip_code :tip => "9 digit zip code is required for validation", :label => 'Zipcode:'
+    => <p class="required">
+    =>   <label class="required" for="person_zip_code"><span class="required-flag">*</span>Zipcode:</label>
+    =>   <input id="person_zip_code" name="person[zip_code]" size="20" title="9 digit zip code is required for validation" type="text" />
+    =>   <span class="field-tip">(9 digit zip code is required for validation)</span>
+    => </p>
+
+  NOTE: you can additionally pass in in :required => true option to force a field to look required,
+        even if it is technically not required.  This also applies to the label and various input
+        methods.
+
+  Here is an example that creates the same thing as f.text_field, but without the tip or error
+  information (in this example the title field is required.)
+  - f.wrap_input :title, f.label(:title) + f.text_field_without_designerization(:title), :class => 'special-input'
+    => <p class="special-input required">
+    =>   <label class="required" for="page_title"><span class="required-flag">*</span>Title:</label>
+    =>   <input id="page_title" name="page[title]" size="30" type="text" />
+    => </p>
+
+  To add Ajax validation you have to add the "validates_with_ajax" to the controller like this:
+  - class Admin::PersonsController < Admin::BaseController
+  -   before_filter :find_parents
+  -   ajax_validations_for :person, :credential
+  - ...
+
+  - form_for(@object, :validates_with_ajax => true) do |f|
+  
+    Now, only person and credential will be allowed to be validated using Ajax (this is a measure
+    for security).  You must explicity set which objects will be validated when using Ajax
+    validation.
+
+    Remember to pass in the ":validates_with_ajax => true" to the form_for method you want to use
+    it on.
+    
+    You can also ignore a given field by passing the ":without_ajax_validation => false" option
+    into the input helper method.  And if you want to validate more then one field on one input you
+    can use the ":validate_with => :field1" or ":validate_with => [ :field1, :field2 ]".
+
+  As a side note, many of the standard methods outside the form instance work the same as they
+  would without the plugin loaded.  So for example, if you wanted the default label method, you can
+  call "label :page, :title, 'Title:'" (instead of f.label) and none of the special designer form
+  treatment will be applied (this is true for all except the field_set_for method).  The same goes
+  for the various input methods such as text_field, instead of f.text_field.  And as always, you
+  can call the various input methods as text_field_without_designerization to avoid any of the
+  designer treatment.

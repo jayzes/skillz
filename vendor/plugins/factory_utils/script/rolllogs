@@ -1,0 +1,53 @@
+#!/usr/bin/ruby
+
+# Rolls over old logs of applications on Rails Machine.
+# This script is intended to be called by cron on your Rails Machine.
+#
+# Andrew Stewart, AirBlade Software Ltd (boss at airbladesoftware dot com)
+# Feedback gratefully received.
+#
+# Version 0.1
+
+require 'rubygems'
+require 'logger'
+require 'yaml'
+
+# Configure the script here.  You won't need to change anything
+# unless you have modified your Rails Machine setup.
+APPS_PATH   = ENV['APPS_PATH'] || '/var/www/apps'             # Path to all your apps
+EXCLUSIONS  = %w( rails )                 # Any directories or apps to exclude
+SIZE        = 5 * 1024 * 1024             # Max size of a log file (bytes)
+TIMESTAMP   = '%Y%m%d%H%M%S'              # Timestamp for databases' backup files
+LOG_FILE    = File.directory?("/home/#{ENV['USER']}") ? "/home/#{ENV['USER']}/logs.log" : STDOUT  # Where to log activity
+
+# The body of the script follows.
+
+log = Logger.new(LOG_FILE, 5, 10*1024)
+log.level = Logger::DEBUG
+
+log.info 'Starting log maintenance'
+Dir["#{APPS_PATH}/*"].each do |entry|
+  log.info entry
+  app = File.basename entry
+  next if File.file?(entry) || EXCLUSIONS.include?(app)
+
+  log_dir = File.directory?(File.join( entry, 'shared', 'log' )) ? File.join( entry, 'shared', 'log' ) : File.join( entry, 'log' )
+  Dir["#{log_dir}/*.log"].each do |live_log|
+    log_file = live_log
+    if File.size(log_file) > SIZE
+      new_file = "#{log_file}-#{Time.now.strftime(TIMESTAMP)}"
+      copy_cmd =  "cp #{log_file} #{new_file}"
+      log.debug "Executing: #{copy_cmd}"
+      `#{copy_cmd}`
+      log.debug "Truncating #{log_file}"
+      File.truncate log_file, 0
+      
+      gzip_cmd =  "gzip #{new_file}"
+      log.debug "Executing: #{gzip_cmd}"
+      `#{gzip_cmd}`
+      
+    end
+  end
+  log.info "Rolled over logs for #{app}"
+end
+log.info 'Finished log maintenance'
