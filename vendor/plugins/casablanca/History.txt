@@ -1,0 +1,37 @@
+=== 0.2.2 / 2009-02-21
+
+* 1 minor bug fix
+
+  * Removed Hoe dependency
+  
+=== 0.2.0 / 2009-02-21
+
+* 1 minor bug fix
+
+  * Fixed gemspec
+  
+=== 0.2.0 / 2009-02-20
+
+* 1 major enhancement
+
+  * Implemented RenewFilter for rails filter
+  
+=== 0.1.0 / 2009-02-18
+
+* 1 major enhancement
+
+  * Implemented gatewaying for rails filter
+  
+=== 0.0.2 / 2009-01-07
+
+* 1 major enhancement
+
+  * Implemented renew
+  * Added logger
+
+=== 0.0.1 / 2009-01-07
+
+* 1 major enhancement
+
+  * Birthday!
+

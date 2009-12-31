@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+irb = RUBY_PLATFORM =~ /mswin32/ ? 'irb.bat' : 'irb'
+options = { :sandbox => false, :irb => irb }
+
+libs =  " -r irb/completion"
+libs << " -r #{File.expand_path(File.dirname(__FILE__))}/../lib/casablanca.rb"
+libs << " -r #{File.expand_path(File.dirname(__FILE__))}/../lib/casablanca/client.rb"
+libs << " -r #{File.expand_path(File.dirname(__FILE__))}/../lib/casablanca/cli.rb"
+
+exec "#{options[:irb]} #{libs} --simple-prompt"

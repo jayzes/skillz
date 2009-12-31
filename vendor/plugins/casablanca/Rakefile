@@ -1,0 +1,16 @@
+# -*- ruby -*-
+
+require 'rubygems'
+require 'hoe'
+require 'lib/casablanca.rb'
+
+Hoe.new('casablanca', Casablanca::VERSION) do |p|
+  p.developer('Petrik de Heus', 'FIX@example.com')
+  p.remote_rdoc_dir = '' # Release to root  
+end
+
+require 'metric_fu'
+
+MetricFu::Configuration.run do |config|
+  config.coverage = { :test_files => ['test/**/test_*.rb'] }
+end
