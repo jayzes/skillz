@@ -1,0 +1,46 @@
+!!!
+%html{ "xml:lang" => "en", :lang => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %title TNF Blizzard :: Administration
+    %meta{ :content => "text/html; charset=UTF-8", "http-equiv" => "content-type" }
+    %meta{ :content => "en", "http-equiv" => "content-language" }
+    %meta{ :content => "no", "http-equiv" => "imagetoolbar" }
+    = stylesheet_link_tag 'formtastic', 'admin_standard', :cache => true
+    = javascript_include_tag :defaults, 'application'
+  %body
+    #body
+      #body_wrapper
+        #logo<
+          %img{ :src => "/images/admin_standard/logo.png" }
+        - if session[:cas_user]
+          #utility
+            #settings
+              %span= "Welcome #{session[:cas_user]} -"
+              = link_to "Go Home", '#'
+              %span= '-'
+              = link_to "Sign out of SSO", logout_path, :confirm => "Are you sure you want to logout?"
+        #body_container
+          - @content_for_subnavigation = tabbed_subnavigation_for :navigation, :path => 'layouts/', :title => 'Management'
+          - if @content_for_context_navigation || @content_for_subnavigation
+            #context_wrapper
+              #context_container
+                #subnavigation
+                  .content= yield :subnavigation
+                  - if @content_for_context_navigation
+                    #context
+                      #context_arrow
+                      = yield :context_navigation
+                #context_container_end
+          #content_container{ :class => @content_for_context_navigation || @content_for_subnavigation ? 'with-context' : '' }
+            = render :partial => 'layouts/navigation' if session[:cas_user]
+            #content_shadow_right
+              .content
+                = breadcrumbs ['Admin', '/admin'], @current_crumb || nil if session[:cas_user]
+                #smart_navigation= yield :smart_navigation
+                #controller_content
+                  = flash_messages
+                  ~ yield
+                .clear-right <br clear="all"/>
+            #footer Copyright &copy; 2009 Factory Design Labs.  All rights reserved.
+    #background
+      %img#background_image{ :src => "/images/admin_standard/background.jpg" }

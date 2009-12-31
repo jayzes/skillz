@@ -1,0 +1,66 @@
+<%
+# this partial renders a tabbed navigation, you can call it in your views with:
+#   <%= tabbed_navigation :main % > (just the tabnav)
+# or, if you want a boxed tabbed navigation:
+#   <% tabbed_navigation :main do % >
+#     your html here
+#   <% end % >
+# (remove the space between % and >, we don't want to mess up your brand new tabnav :-))
+#
+# options:
+#   :html => sets html options for the tabnav's div (eg :html => {:class => 'my-classname', :id => 'my_id'})
+#
+render_tabbed_navigation :admin do
+
+  add_tab do |t|
+    t.named 'Projects'
+    t.titled 'Manage projects'
+    t.links_to :controller => 'projects'
+  end
+
+  add_tab do |t|
+    t.named 'People'
+    t.titled 'Manage people'
+    t.links_to :controller => 'people'
+  end
+
+  add_tab do |t|
+    t.named 'Skills'
+    t.titled 'Manage skills'
+    t.links_to :controller => 'skills'
+  end
+
+  #
+  # you can use restful routes with:
+  #
+  #add_tab do |t|
+  #  t.named 'Users'
+  #  t.links_to hash_for_users_path
+  #end
+  #
+  #add_tab do |t|
+  #  t.named 'Customers'
+  #  t.links_to :controller => 'customers'
+  #end
+  #
+  # # A tab can be initialized with a Hash like this:
+  #
+  # add_tab :name => 'welcome', :link => {:controller=>'welcome'}
+  #
+  # # You can have a dynamic name or link
+  # # (this partial is evaluated in the page context, so it sees every helper or instance variable)
+  #
+  # add_tab do |t|
+  #   t.named "#{current_user} details"
+  #   t.links_to :controller => 'users', :action => 'show', :id => current_user.id
+  # end
+  #
+  # # You can have an image inside
+  #
+  # add_tab do |t|
+  #   t.named image_tag('test')
+  #   t.links_to :controller => 'users', :action => 'show', :id => current_user.id
+  # end
+end
+
+%>

@@ -1,0 +1,43 @@
+8
+
+dir
+30421
+http://warehouse.factorylabs.com/repos/interactive/Projects/oakley/revo/trunk/site/vendor/plugins/tabbed_navigation/generators/tabbed_navigation
+http://warehouse.factorylabs.com/repos/interactive
+
+
+
+2009-01-07T02:45:59.247081Z
+25308
+jeremy
+
+
+svn:special svn:externals svn:needs-lock
+
+USAGE
+file
+
+
+
+
+2009-01-06T23:19:33.000000Z
+4d3fc6e49df231eda644b5b1566bb5f4
+2009-01-07T02:45:59.247081Z
+25308
+jeremy
+
+tabbed_navigation_generator.rb
+file
+
+
+
+
+2009-01-06T23:19:33.000000Z
+caf8e40d15e5a4cf2300151677caae33
+2009-01-07T02:45:59.247081Z
+25308
+jeremy
+
+templates
+dir
+

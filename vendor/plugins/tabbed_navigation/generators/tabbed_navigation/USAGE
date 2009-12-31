@@ -1,0 +1,16 @@
+The tabbed_navigation generator creates a sample tabbed_navigation partial.
+      
+invoke with:  ./script/generate tabbed_navigation <name>
+         eg:  ./script/generate tabbed_navigation main
+
+Usage:
+    Customize your generated partial (es: views/tabbed_navigation/_main.rhtml)
+    then insert in your .rhtml pages one of these snippets:
+
+    <% tabbed_navigation :main do %>
+       your html here
+    <% end %>
+
+    :: or ::
+
+    <%= tabbed_navigation :main %>
