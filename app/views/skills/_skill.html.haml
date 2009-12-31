@@ -1,0 +1,8 @@
+- content_tag_for :div, skill do
+  %ul
+    %li
+      %strong Name:
+      =h skill.name
+    = link_to 'Show', skill
+    = link_to 'Edit', edit_skill_path(skill)
+    = link_to 'Destroy', skill, :confirm => 'Are you sure?', :method => :delete

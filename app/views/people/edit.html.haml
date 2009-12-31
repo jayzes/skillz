@@ -1,0 +1,6 @@
+%h2 Editing person
+= render :partial => "form", :locals => {:person => @person}
+%ul
+  %li= link_to 'Show', @person
+  %li= link_to 'Back', people_path
+  %li= link_to 'Destroy', @person, :confirm => 'Are you sure?', :method => :delete  

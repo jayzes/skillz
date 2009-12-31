@@ -1,0 +1,6 @@
+%h2 Editing skill
+= render :partial => "form", :locals => {:skill => @skill}
+%ul
+  %li= link_to 'Show', @skill
+  %li= link_to 'Back', skills_path
+  %li= link_to 'Destroy', @skill, :confirm => 'Are you sure?', :method => :delete  

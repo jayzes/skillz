@@ -1,0 +1,8 @@
+%h2 Listing skills
+- if !@skills.empty?
+  .skills
+    = render :partial => "skill", :collection => @skills
+  = will_paginate(@skills)
+- else
+  %p There are no skills to show yet.
+= link_to 'New skill', new_skill_path

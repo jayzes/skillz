@@ -1,0 +1,8 @@
+%h2 Listing people
+- if !@people.empty?
+  .people
+    = render :partial => "person", :collection => @people
+  = will_paginate(@people)
+- else
+  %p There are no people to show yet.
+= link_to 'New person', new_person_path

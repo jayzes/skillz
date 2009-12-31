@@ -1,0 +1,9 @@
+%h2= "Project \"#{@project.to_param}\""
+- content_tag_for :div, @project do
+  %ul
+    %li
+      %strong Name:
+      =h @project.name
+%ul
+  %li= link_to 'Edit', edit_project_path(@project)
+  %li= link_to 'Back', projects_path

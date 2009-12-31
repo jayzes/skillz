@@ -1,0 +1,12 @@
+- form_for(person) do |f|
+  = f.error_messages
+  %p
+    = f.label :name
+    %br
+    = f.text_field :name
+  %p
+    = f.label :cas_user
+    %br
+    = f.text_field :cas_user
+  %p
+    = f.submit "Submit"

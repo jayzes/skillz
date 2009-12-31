@@ -1,0 +1,4 @@
+%h2 New person
+= render :partial => "form", :locals => {:person => @person}
+%ul
+  %li= link_to 'Back', people_path

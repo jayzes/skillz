@@ -1,0 +1,12 @@
+%h2= "Person \"#{@person.to_param}\""
+- content_tag_for :div, @person do
+  %ul
+    %li
+      %strong Name:
+      =h @person.name
+    %li
+      %strong Cas user:
+      =h @person.cas_user
+%ul
+  %li= link_to 'Edit', edit_person_path(@person)
+  %li= link_to 'Back', people_path
