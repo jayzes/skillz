@@ -9,5 +9,7 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
   
   include SortableTable::App::Controllers::ApplicationController
+  
+  before_filter Casablanca::Rails::Filter
 
 end
