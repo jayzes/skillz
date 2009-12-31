@@ -1,8 +1,20 @@
-%h2 Listing people
-- if !@people.empty?
-  .people
-    = render :partial => "person", :collection => @people
-  = will_paginate(@people)
-- else
-  %p There are no people to show yet.
-= link_to 'New person', new_person_path
+%table{:class => 'list'}
+  %tr
+    %th Name
+    %th{:colspan => 2} Actions
+  - unless @people.empty?
+    - @people.each do |person|
+      %tr
+        %td= link_to person.name, edit_person_path(person)
+        %td= link_to 'Destroy', person, :confirm => 'Are you sure?', :method => :delete
+  - else
+    %tr
+      %td{:colspan => 3} There are no people to show yet.
+
+%br
+
+= will_paginate(@people)
+
+%br
+
+= link_to 'Create a new person', new_person_path

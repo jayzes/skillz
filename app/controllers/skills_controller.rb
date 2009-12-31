@@ -9,7 +9,7 @@ class SkillsController < ApplicationController
     respond_to do |format|
       if @skill.save
         flash[:notice] = 'Skill was successfully created.'
-        format.html { redirect_to @skill }
+        format.html { redirect_to skills_path }
         format.xml  { render :xml => @skill, :status => :created, :location => @skill }
       else
         format.html { render :action => "new" }
@@ -62,7 +62,7 @@ class SkillsController < ApplicationController
     respond_to do |format|
       if @skill.update_attributes(params[:skill])
         flash[:notice] = 'Skill was successfully updated.'
-        format.html { redirect_to @skill }
+        format.html { redirect_to skills_path }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

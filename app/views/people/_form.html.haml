@@ -1,12 +1,6 @@
-- form_for(person) do |f|
-  = f.error_messages
-  %p
-    = f.label :name
-    %br
-    = f.text_field :name
-  %p
-    = f.label :cas_user
-    %br
-    = f.text_field :cas_user
-  %p
-    = f.submit "Submit"
+- semantic_form_for(person) do |form|
+  - form.inputs do
+    = form.input :name, :label => 'Name'
+    = form.input :cas_user, :label => 'CAS username'
+    = form.input :skills, :as => :check_boxes
+    = form.buttons

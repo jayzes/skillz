@@ -5,8 +5,16 @@
       %strong Name:
       =h @person.name
     %li
-      %strong Cas user:
-      =h @person.cas_user
+      %strong CAS username:
+      =h @person.cas_user      
+    %li
+      %string Skills:
+      %ul
+        - unless @person.skills.empty?
+          - @person.skills.each do |skill|
+            %li=h skill.name
+        - else
+          %li No skills are associated with this person
 %ul
   %li= link_to 'Edit', edit_person_path(@person)
   %li= link_to 'Back', people_path

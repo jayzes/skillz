@@ -1,7 +1,7 @@
 !!!
 %html{ "xml:lang" => "en", :lang => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
   %head
-    %title TNF Blizzard :: Administration
+    %title= "FDL Skillz :: #{controller_name.humanize}"
     %meta{ :content => "text/html; charset=UTF-8", "http-equiv" => "content-type" }
     %meta{ :content => "en", "http-equiv" => "content-language" }
     %meta{ :content => "no", "http-equiv" => "imagetoolbar" }
@@ -12,11 +12,11 @@
       #body_wrapper
         #logo<
           %img{ :src => "/images/admin_standard/logo.png" }
-        - if session[:cas_user]
+        - if current_person
           #utility
             #settings
-              %span= "Welcome #{session[:cas_user]} -"
-              = link_to "Go Home", '#'
+              %span= "Welcome #{current_person.name} -"
+              = link_to "My Profile", edit_person_path(current_person)
               %span= '-'
               = link_to "Sign out of SSO", logout_path, :confirm => "Are you sure you want to logout?"
         #body_container
@@ -32,10 +32,10 @@
                       = yield :context_navigation
                 #context_container_end
           #content_container{ :class => @content_for_context_navigation || @content_for_subnavigation ? 'with-context' : '' }
-            = render :partial => 'layouts/navigation' if session[:cas_user]
+            = render :partial => 'layouts/navigation' if current_person
             #content_shadow_right
               .content
-                = breadcrumbs ['Admin', '/admin'], @current_crumb || nil if session[:cas_user]
+                = breadcrumbs 'FDL Skillz', @current_crumb || nil if current_person
                 #smart_navigation= yield :smart_navigation
                 #controller_content
                   = flash_messages

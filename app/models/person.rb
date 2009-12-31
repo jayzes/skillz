@@ -5,4 +5,8 @@ class Person < ActiveRecord::Base
   has_many  :talents,   :dependent  => :destroy
   has_many  :skills,    :through    => :talents
   
+  def to_param
+    "#{id}-#{name.parameterize}"
+  end
+  
 end

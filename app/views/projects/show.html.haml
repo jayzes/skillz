@@ -1,9 +1,24 @@
-%h2= "Project \"#{@project.to_param}\""
+%h2= "Project \"#{@project.name}\""
 - content_tag_for :div, @project do
   %ul
     %li
-      %strong Name:
-      =h @project.name
+      %string Skills needed:
+      %ul
+        - unless @project.skills.empty?
+          - @project.skills.each do |skill|
+            %li=h skill.name
+        - else
+          %li No skills are associated with this project
+  %ul
+    %li
+      %string Ideal Resources:
+      %ul
+        - unless @project.ideal_people_grouped.empty?
+          - @project.ideal_people_grouped.each do |name,skills|
+            %li=h "#{name} (has #{skills.map(&:skill) * ', '})"
+        - else
+          %li No ideal resources were found for this project
+        
 %ul
   %li= link_to 'Edit', edit_project_path(@project)
   %li= link_to 'Back', projects_path

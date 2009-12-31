@@ -74,7 +74,7 @@ class ProjectsController < ApplicationController
   private
 
   def find_project
-    @project = Project.find(params[:id]) if params[:id]
+    @project = Project.find(params[:id], :include => :skills) if params[:id]
   end
 
 end

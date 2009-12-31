@@ -7,4 +7,8 @@ class Skill < ActiveRecord::Base
   has_many            :projects,  :through    => :needs
   has_many            :people,    :through    => :talents
   
+  def to_param
+    "#{id}-#{name.parameterize}"
+  end
+  
 end

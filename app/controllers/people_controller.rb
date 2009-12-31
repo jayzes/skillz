@@ -1,5 +1,7 @@
 class PeopleController < ApplicationController
 
+  skip_before_filter Casablanca::Rails::Filter, :only => [:new, :create]
+  skip_before_filter :check_current_person,     :only => [:new, :create]
   before_filter :find_person
 
   PEOPLE_PER_PAGE = 20
@@ -9,7 +11,7 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.save
         flash[:notice] = 'Person was successfully created.'
-        format.html { redirect_to @person }
+        format.html { redirect_to people_path }
         format.xml  { render :xml => @person, :status => :created, :location => @person }
       else
         format.html { render :action => "new" }
@@ -44,7 +46,7 @@ class PeopleController < ApplicationController
   end
 
   def new
-    @person = Person.new
+    @person = Person.new(params[:person])
     respond_to do |format|
       format.html
       format.xml  { render :xml => @person }
@@ -62,7 +64,7 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.update_attributes(params[:person])
         flash[:notice] = 'Person was successfully updated.'
-        format.html { redirect_to @person }
+        format.html { redirect_to people_path }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

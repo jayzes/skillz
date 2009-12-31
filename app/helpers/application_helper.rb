@@ -7,10 +7,12 @@ module ApplicationHelper
      messages = ''
      %w{ notice success warning error }.each do |type|
        messages += content_tag(:div,
-         content_tag(:div, flash[type.to_sym] || flash.now[type.to_sym]),
+         content_tag(:div, (flash[type.to_sym] || flash.now[type.to_sym])),
          :class => type + ' message'
-         ) if flash[type.to_sym] || flash.now[type.to_sym]
+         ) if (flash[type.to_sym] || flash.now[type.to_sym])
      end
+     logger.info flash.inspect
+     logger.info flash.now.inspect
      messages.blank? ? '' : content_tag(:div, messages, :class => 'flash-messages', :id => 'flash_messages')
    end
 
