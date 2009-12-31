@@ -1,8 +1,4 @@
-- form_for(skill) do |f|
-  = f.error_messages
-  %p
-    = f.label :name
-    %br
-    = f.text_field :name
-  %p
-    = f.submit "Submit"
+- semantic_form_for(skill) do |form|
+  - form.inputs do
+    = form.input :name, :label => 'Name'
+    = form.buttons

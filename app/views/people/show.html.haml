@@ -1,4 +1,3 @@
-%h2= "Person \"#{@person.to_param}\""
 - content_tag_for :div, @person do
   %ul
     %li
@@ -15,6 +14,7 @@
             %li=h skill.name
         - else
           %li No skills are associated with this person
-%ul
-  %li= link_to 'Edit', edit_person_path(@person)
-  %li= link_to 'Back', people_path
+- content_for :context_navigation do
+  %h2= @person.name
+  %p= link_to 'Edit this person', edit_person_path(@person)
+  %p= link_to 'Delete this person', @person, :confirm => 'Are you sure?', :method => :delete

@@ -1,7 +1,0 @@
-- content_tag_for :div, project do
-  %ul
-    %li
-      %strong=h project.name
-    = link_to 'Details', project
-    = link_to 'Edit', edit_project_path(project)
-    = link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete

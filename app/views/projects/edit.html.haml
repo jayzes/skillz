@@ -1,6 +1,5 @@
-%h2 Editing project
 = render :partial => "form", :locals => {:project => @project}
-%ul
-  %li= link_to 'Show', @project
-  %li= link_to 'Back', projects_path
-  %li= link_to 'Destroy', @project, :confirm => 'Are you sure?', :method => :delete  
+- content_for :context_navigation do
+  %h2= @project.name
+  %p= link_to 'Show details', @project
+  %p= link_to 'Delete this project', @project, :confirm => 'Are you sure?', :method => :delete

@@ -1,5 +1,4 @@
-%h2 Editing skill
 = render :partial => "form", :locals => {:skill => @skill}
-%ul
-  %li= link_to 'Cancel', skills_path
-  %li= link_to 'Destroy', @skill, :confirm => 'Are you sure?', :method => :delete  
+- content_for :context_navigation do
+  %h2= @skill.name
+  %p= link_to 'Delete this skill', @skill, :confirm => 'Are you sure?', :method => :delete

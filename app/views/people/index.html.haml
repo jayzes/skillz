@@ -15,6 +15,5 @@
 
 = will_paginate(@people)
 
-%br
-
-= link_to 'Create a new person', new_person_path
+- content_for :smart_navigation do
+  = link_to 'Create a new person', new_person_path

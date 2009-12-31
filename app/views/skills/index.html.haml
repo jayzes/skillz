@@ -1,14 +1,11 @@
-%h2 Listing skills
-
 %table{:class => 'list'}
   %tr
     %th Name
-    %th{:colspan => 2} Actions
+    %th Actions
   - unless @skills.empty?
     - @skills.each do |skill|
       %tr
-        %td= skill.name
-        %td= link_to 'Edit', edit_skill_path(skill)
+        %td= link_to skill.name, edit_skill_path(skill)
         %td= link_to 'Destroy', skill, :confirm => 'Are you sure?', :method => :delete
   - else
     %tr
@@ -18,6 +15,5 @@
 
 = will_paginate(@skills)
 
-%br
-
-= link_to 'Create a new skill', new_skill_path
+- content_for :smart_navigation do
+  = link_to 'Create a new skill', new_skill_path

@@ -16,6 +16,5 @@
 
 = will_paginate(@projects)
 
-%br
-
-= link_to 'Create a new project', new_project_path
+- content_for :smart_navigation do
+  = link_to 'Create a new project', new_project_path
