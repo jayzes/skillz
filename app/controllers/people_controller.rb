@@ -76,7 +76,7 @@ class PeopleController < ApplicationController
   private
 
   def find_person
-    @person = Person.find(params[:id]) if params[:id]
+    @person = Person.find(params[:id], :include => [:talents, :skills]) if params[:id]
   end
 
 end
